@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>มหาพิภพเทียนหยวนBCU — บันทึกไตรภูมิลิขิต</title>
+    <!-- Google Fonts: Noto Sans Thai (ไม่มีหัว) & Noto Serif SC (จีนโบราณ/คลาสสิก) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --font-thai: 'Noto Sans Thai', sans-serif;
+            --font-chinese: 'Noto Serif SC', serif;
+            
+            /* พาเลทสีธรรมชาติแบบไร้กรอบ (เน้นการไล่เฉดและมิติ) */
+            --bg-heaven: #0b111e;
+            --text-heaven: #e2e8f0;
+            --accent-gold: #dfb76c;
+            --glow-gold: rgba(223, 183, 108, 0.15);
+            
+            --bg-mortal: #161210;
+            --text-mortal: #f4f0ec;
+            --accent-vermilion: #b83a26;
+            --glow-vermilion: rgba(184, 58, 38, 0.12);
+            
+            --bg-ghost: #08070a;
+            --text-ghost: #cbd5e1;
+            --accent-violet: #7c3aed;
+            --accent-crimson: #991b1b;
+            --glow-ghost: rgba(124, 58, 237, 0.1);
+        }
+
+        /* รีเซ็ตระบบพื้นฐาน ไร้เส้นขอบ ไร้กรอบตีกรอบ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border: none !important;
+            outline: none !important;
+        }
+
+        body {
+            font-family: var(--font-thai);
+            background-color: var(--bg-mortal);
+            color: var(--text-mortal);
+            line-height: 1.8;
+            overflow-x: hidden;
+            font-size: 16px;
+            letter-spacing: 0.03em;
+        }
+
+        /* ภาษาจีนประยุกต์ */
+        .cn {
+            font-family: var(--font-chinese);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+
+        /* ส่วนหัวของเว็บไซต์และกราฟิกบรรยากาศแบบกว้างสุดขอบ */
+        header {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1e1b18 0%, #080706 100%);
+            padding: 2rem;
+        }
+
+        .header-bg-glow {
+            position: absolute;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(184, 58, 38, 0.05) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hashtag {
+            font-size: 1.1rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.2em;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            z-index: 2;
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            z-index: 2;
+            text-shadow: 0 0 40px rgba(255,255,255,0.1);
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: #a1a1aa;
+            max-width: 600px;
+            margin-bottom: 3rem;
+            z-index: 2;
+        }
+
+        /* ระบบทางนำสายตา (Navigation) แบบโปร่งแสง ลอยตัว ไร้กล่องเส้นขอบ */
+        nav {
+            position: absolute;
+            bottom: 10%;
+            display: flex;
+            gap: 3rem;
+            z-index: 2;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: color 0.4s ease;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 1px;
+            background-color: var(--accent-gold);
+            transition: all 0.4s ease;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover {
+            color: var(--accent-gold);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* โครงสร้างเนื้อหาแบบ Fluid Layout ลื่นไหลต่อเนื่อง */
+        section {
+            position: relative;
+            padding: 8rem max(5vw, 2rem);
+            transition: background-color 0.6s ease;
+        }
+
+        /* เซกชันสวรรค์ */
+        #heavenly-realm {
+            background-color: var(--bg-heaven);
+            color: var(--text-heaven);
+        }
+
+        #heavenly-realm .realm-glow {
+            position: absolute;
+            top: 20%;
+            right: 10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, var(--glow-gold) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* เซกชันโลกมนุษย์ */
+        #mortal-realm {
+            background-color: var(--bg-mortal);
+            color: var(--text-mortal);
+        }
+
+        #mortal-realm .realm-glow {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, var(--glow-vermilion) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* เซกชันเมืองผี */
+        #ghost-realm {
+            background-color: var(--bg-ghost);
+            color: var(--text-ghost);
+        }
+
+        #ghost-realm .realm-glow {
+            position: absolute;
+            bottom: 10%;
+            left: 10%;
+            width: 50vw;
+            height: 50vw;
+            background: radial-gradient(circle, var(--glow-ghost) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* การจัดหน้าเลย์เอาท์ภายใน - ไร้การตีกรอบแบ่งช่องสี่เหลี่ยมแข็งๆ */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .realm-header {
+            margin-bottom: 6rem;
+        }
+
+        .realm-tag {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        #heavenly-realm .realm-tag { color: var(--accent-gold); }
+        #mortal-realm .realm-tag { color: var(--accent-vermilion); }
+        #ghost-realm .realm-tag { color: #f43f5e; }
+
+        .realm-title {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.3;
+        }
+
+        /* การจัดวางเนื้อหาเชิงลึกแบบอสมมาตร (Asymmetric Layout) เพื่อความพรีเมียม */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+        }
+
+        @media (min-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1.2fr 1.8fr;
+                gap: 8rem;
+            }
+        }
+
+        .meta-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .meta-block h4 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 0.8rem;
+        }
+
+        .meta-block p {
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+
+        .detailed-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .lore-paragraph h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .lore-paragraph p {
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        /* ตารางข้อมูลลอยตัว ไร้เส้นขอบตาราง (Borderless Data Table) */
+        .data-table {
+            width: 100%;
+            margin-top: 2rem;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 1rem 0;
+            font-weight: 500;
+            color: #ffffff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .data-table td {
+            padding: 1.2rem 0;
+            color: #94a3b8;
+            vertical-align: top;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        }
+
+        .data-table td:first-child {
+            color: #ffffff;
+            font-weight: 500;
+            width: 30%;
+        }
+
+        /* ไฮไลท์คำโปรยหรือโควตแบบไร้เส้นขอบข้าง */
+        .poetic-quote {
+            font-style: normal;
+            font-size: 1.2rem;
+            line-height: 2;
+            color: var(--accent-gold);
+            padding: 2rem 0;
+            margin: 2rem 0;
+            text-align: center;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent);
+        }
+
+        #ghost-realm .poetic-quote {
+            color: #f43f5e;
+        }
+
+        /* ท้ายเว็บไซต์ */
+        footer {
+            background-color: #050506;
+            padding: 4rem 2rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #4b5563;
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ส่วนหัวเว็บบรรยากาศพิภพ -->
+    <header>
+        <div class="header-bg-glow"></div>
+        <div class="hashtag">#มหาพิภพเทียนหยวนBCU</div>
+        <h1 class="main-title"><span class="cn">天元三界志</span><br>บันทึกไตรภูมิลิขิต</h1>
+        <p class="subtitle">มหาตำนานเซ็ตติ้งโบราณอันประกอบด้วยสามภพภูมิ: เทพยาดา มนุษย์ปุถุชน และอสุราวิญญาณ ที่ร้อยเรียงกันด้วยสายใยแห่งกรรมและแรงศรัทธา</p>
+        
+        <nav>
+            <a href="#heavenly-realm">เมืองเทพ</a>
+            <a href="#mortal-realm">เมืองมนุษย์</a>
+            <a href="#ghost-realm">เมืองผี</a>
+        </nav>
+    </header>
+
+    <!-- 1. เมืองเทพ (สวรรค์ประทานพรสไตล์) -->
+    <section id="heavenly-realm">
+        <div class="realm-glow"></div>
+        <div class="container">
+            <div class="realm-header">
+                <span class="realm-tag">The Celestial Realm • <span class="cn">天界</span></span>
+                <h2 class="realm-title">นครสวรรค์จรัสฟ้า “เทียนเสวียนกง” <span class="cn">(天宮)</span></h2>
+            </div>
+
+            <div class="content-grid">
+                <!-- ข้อมูลจำเพาะทางโครงสร้าง -->
+                <div class="meta-info">
+                    <div class="meta-block">
+                        <h4>ผู้ปกครองสูงสุด</h4>
+                        <p>มหาจักรพรรดิเทพเทียนหยวนเสวียนตี้ (<span class="cn">天元玄帝</span>) — เทพเจ้าโบราณผู้บรรลุธรรมด้วยมรรคาแห่งความว่างเปล่า คุมสมดุลแห่งดวงดาวและชะตากรรมไตรภพ</p>
+                    </div>
+                    <div class="meta-block">
+                        <h4>กลไกพลังงานขับเคลื่อน</h4>
+                        <p>พลังศรัทธาบริสุทธิ์ (<span class="cn">功德ศรัทธา</span>) และ ควันธูปแห่งการกราบไหว้ ยิ่งมนุษย์ศรัทธามาก ขอบเขตตำหนักและอิทธิฤทธิ์ของเทพองค์นั้นจะยิ่งไร้เทียมทาน</p>
+                    </div>
+                    <div class="meta-block">
+                        <h4>กฎเหล็กสวรรค์</h4>
+                        <p>ห้ามทัศนาอารมณ์ทางโลกจนเสียสมดุล ห้ามแทรกแซงวัฏจักรความตายของมนุษย์โดยไม่ได้รับโองการ และห้ามทอดสะพานทิพย์เชื่อมเมืองผีเด็ดขาด</p>
+                    </div>
+                </div>
+
+                <!-- เนื้อหาเจาะลึกเชิงประวัติศาสตร์และวัฒนธรรมสวรรค์ -->
+                <div class="detailed-text">
+                    <div class="lore-paragraph">
+                        <h3>ระเบียบการปกครองและทำเนียบสี่เทพสวรรค์</h3>
+                        <p>สวรรค์เทียนเสวียนกงตั้งอยู่เหนือหมู่เมฆเก้าชั้นฟ้า โครงสร้างสถาปัตยกรรมสร้างจากหยกขาวและทองคำดิบ ลอยตัวอยู่บนหมู่เกาะเมฆาที่ไม่มีวันตกตะลึง ปกครองโดยระบบสภาเทพสิบสองทิศ แบ่งออกเป็น <b>ฝ่ายบุ๋น (ฝ่ายทะเบียนและลิขิต)</b> และ <b>ฝ่ายบู๊ (ฝ่ายปราบปรามและคุ้มภัย)</b></p>
+                        <p>ในยุคปัจจุบัน สวรรค์ถูกค้ำจุนด้วยสี่เสาหลักแห่งมหาเทพผู้มีผู้นิยมกราบไหว้มากที่สุด:</p>
+                        
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>นามมหาเทพ</th>
+                                    <th>หน้าที่และอิทธิฤทธิ์</th>
+                                    <th>ศาลากลาง/อาวุธประจำกาย</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>เทพสงครามประจิม “ไป๋หู่จวิน”</td>
+                                    <td>ควบคุมกองทัพสวรรค์ทิศตะวันตก ปราบอสูรชั้นมหากาฬ</td>
+                                    <td>ทวนกลืนนภา / ตำหนักพยัคฆ์ขาวทองอำพัน</td>
+                                </tr>
+                                <tr>
+                                    <td>เทพอักษรเมธี “ชางเสวียนเจินเหริน”</td>
+                                    <td>ลิขิตดวงปัญญา มอบพรอัยการและการสอบขุนนางของมนุษย์</td>
+                                    <td>พู่กันเนรมิตชะตา / ศาลาคัมภีร์หมื่นอักษร</td>
+                                </tr>
+                                <tr>
+                                    <td>เทพีประทานโอสถ “เย่ว์เสวียนเซียนจื่อ”</td>
+                                    <td>รักษาโรคระบาด ปัดเป่ามนต์ดำและพิษร้ายในโลกต่ำ</td>
+                                    <td>คันฉ่องหลอมทิพย์ / สวนโอสถทิพย์แดนเหมันต์</td>
+                                </tr>
+                                <tr>
+                                    <td>เทพโชคลาภสหัสเนตร “กิมเสวียนเสิน”</td>
+                                    <td>ผู้ดูแลเส้นทางค้าขายและคลังสมบัติทิพย์ มีดวงตาเห็นสายแร่ทองคำ</td>
+                                    <td>ลูกคิดหยกจักรพรรดิ / หอสมบัติอนันต์</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="poetic-quote">
+                        “กลิ่นธูปพันปีไม่เคยจางหาย สวรรค์เสวยสุขบนหยาดน้ำตาและแรงอธิษฐานแห่งปุถุชน”
+                    </div>
+
+                    <div class="lore-paragraph">
+                        <h3>การขึ้นสวรรค์ (Ascension) และขุนพลรอง</h3>
+                        <p>มนุษย์ธรรมดาหรือแม้กระทั่งนักพรตจะขึ้นมาเป็นเทพบนสวรรค์นี้ได้ ต้องผ่านกระบวนการที่เรียกว่า <b>“ทัณฑ์อัสนีบาตเก้าชั้นฟ้า”</b> ซึ่งจะเกิดขึ้นเฉพาะกับผู้ที่สร้างคุณงามความดีในโลกมนุษย์จนเกิดแรงสะเทือนถึงฟากฟ้า หรือผู้ที่มีจิตปณิธานแรงกล้าจนตัดกิเลสทางโลกได้สิ้นเชิง</p>
+                        <p>เมื่อขึ้นสวรรค์แล้วจะสามารถแต่งตั้ง <b>“ขุนพลเทพประทาน” (กลางสวรรค์)</b> ซึ่งส่วนใหญ่เป็นวิญญาณข้ารับใช้ที่มีความผูกพันในอดีตชาติให้ขึ้นมาช่วยงานในตำหนักได้ ทำให้โครงสร้างของสวรรค์เทียนเสวียนกงมีประชากรเทพและผู้ติดตามรวมกันกว่าหมื่นชีวิต</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. เมืองมนุษย์ -->
+    <section id="mortal-realm">
+        <div class="realm-glow"></div>
+        <div class="container">
+            <div class="realm-header">
+                <span class="realm-tag">The Mortal Realm • <span class="cn">人間</span></span>
+                <h2 class="realm-title">มหาอาณาจักรมนุษย์ “ต้าเยี่ยนหวงเฉา” <span class="cn">(大燕王朝)</span></h2>
+            </div>
+
+            <div class="content-grid">
+                <!-- ข้อมูลจำเพาะทางโครงสร้าง -->
+                <div class="meta-info">
+                    <div class="meta-block">
+                        <h4>ศูนย์กลางการปกครอง</h4>
+                        <p>นครหลวงเจินจิง (<span class="cn">臻京</span>) — เมืองหลวงที่สร้างขึ้นบนเส้นชีพจรมังกรที่ใหญ่ที่สุดในแผ่นดิน มีประชากรหนาแน่นและเป็นที่ตั้งของพระราชวังทองคำหลวง</p>
+                    </div>
+                    <div class="meta-block">
+                        <h4>ลัทธิและความเชื่อ</h4>
+                        <p>สำนักพรตไท่เสวียน (<span class="cn">太玄道門</span>) ทำหน้าที่เป็นสื่อกลางระหว่างราชสำนักกับสวรรค์ คอยสร้างศาลบูชาเทพเจ้าและทำพิธีฝังฮวงซุ้ยเพื่อสะกดวิญญาณร้ายไม่ให้หลุดมาจากเมืองผี</p>
+                    </div>
+                    <div class="meta-block">
+                        <h4>ภัยความมั่นคงทางจิตวิญญาณ</h4>
+                        <p>การแทรกซึมของผีร้ายในรูปแบบของ "ตลาดมืดมนุษย์-วิญญาณ" ตามหัวเมืองชายแดน และการคอร์รัปชันของขุนนางที่ทำลายแรงศรัทธาจนสวรรค์พิโรธส่งภัยแล้งลงมา</p>
+                    </div>
+                </div>
+
+                <!-- เนื้อหาเจาะลึกโลกมนุษย์ -->
+                <div class="detailed-text">
+                    <div class="lore-paragraph">
+                        <h3>ภูมิศาสตร์ โครงสร้างสังคม และวิถีชีวิต</h3>
+                        <p>อาณาจักรต้าเยี่ยนแผ่ขยายอาณาเขตครอบคลุมพื้นที่ลุ่มแม่น้ำฮวงโหโบราณ ทิศเหนือติดกำแพงหินศิลาโลกันตร์ทอดตัวยาวเพื่อกั้นแดนป่าเถื่อน ทิศใต้เป็นเมืองท่าค้าขายทางน้ำที่รุ่งเรือง สังคมมนุษย์ในเซ็ตติ้งนี้ผูกพันกับเรื่องเหนือธรรมชาติอย่างแยกไม่ออก ทุกบ้านเรือนจะมีแท่นบูชาขนาดเล็ก และทุกเมืองจะมีศาลเจ้าหลักประจำเมือง (<span class="cn">城隍廟</span>) เพื่อขอความคุ้มครองจากเทพสวรรค์</p>
+                        <p>วิถีชีวิตแบ่งแยกชัดเจนเป็นสามชนชั้นหลัก:</p>
+                        
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ชนชั้น/กลุ่มอิทธิพล</th>
+                                    <th>บทบาทในไตรภูมิ</th>
+                                    <th>ความสัมพันธ์ลับ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ราชวงศ์และขุนนางสายเลือดมังกร</td>
+                                    <td>ผู้ถือครองอำนาจทางกฎหมายและกองทัพมนุษย์</td>
+                                    <td>มักทำข้อตกลงลับกับผีระดับสูงเพื่ออำนาจและยาอายุวัฒนะ</td>
+                                </tr>
+                                <tr>
+                                    <td>นักพรตและผู้ฝึกตนสำนักไท่เสวียน</td>
+                                    <td>ล่าปีศาจ ตรวจสอบพลังงานหยิน-หยาง ปรุงโอสถทิพย์</td>
+                                    <td>รับโองการลับจากเทพสวรรค์ผ่านการประทับทรง</td>
+                                </tr>
+                                <tr>
+                                    <td>พ่อค้าและชาวบ้านธรรมดา</td>
+                                    <td>ผู้ผลิตและจ่าย "พลังศรัทธา" ผ่านการทำบุญและเซ่นไหว้</td>
+                                    <td>ตกเป็นเหยื่อของการล่อลวงจากวิญญาณเร่ร่อนบ่อยครั้ง</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="poetic-quote">
+                        “กลางวันเป็นของมนุษย์ผู้ดิ้นรน กลางคืนเป็นของเงาร้ายที่คืบคลานมาจากอเวจี”
+                    </div>
+
+                    <div class="lore-paragraph">
+                        <h3>จุดเชื่อมต่อไตรภูมิบนโลกมนุษย์</h3>
+                        <p>มีสถานที่พิเศษสามแห่งในต้าเยี่ยนที่เป็นจุดที่มิติบางเบาที่สุด:</p>
+                        <p><b>1. ยอดเขาชางซาน</b>: สถานที่ซึ่งนักพรตนิยมมาทำพิธีเหาะเหินขึ้นสวรรค์ บรรยากาศเต็มไปด้วยปราณบริสุทธิ์และยากที่ผีร้ายจะย่างกรายเข้าใกล้</p>
+                        <p><b>2. หุบเขากลืนวิญญาณ</b>: รอยแยกขนาดยักษ์ใจกลางป่าหมอกทิศตะวันตก ซึ่งเป็นทางผ่านทางกายภาพเพียงแห่งเดียวที่มนุษย์สามารถเดินหลงเข้าไปในเขตแดนของเมืองผีได้โดยไม่รู้ตัว</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. เมืองผี (สวรรค์ประทานพรสไตล์) -->
+    <section id="ghost-realm">
+        <div class="realm-glow"></div>
+        <div class="container">
+            <div class="realm-header">
+                <span class="realm-tag">The Ghost Realm • <span class="cn">鬼界</span></span>
+                <h2 class="realm-title">นครราตรีอนธการ “โยวหมิงเฮยเฉิง” <span class="cn">(幽冥黑城)</span></h2>
+            </div>
+
+            <div class="content-grid">
+                <!-- ข้อมูลจำเพาะทางโครงสร้าง -->
+                <div class="meta-info">
+                    <div class="meta-block">
+                        <h4>ผู้ปกครองและจอมมาร</h4>
+                        <p>จอมสยบวิญญาณ "เยี่ยหลิวอิ๋ง" (<span class="cn">夜流螢</span>) — ราชาผีระดับฉีกฟ้าดิน (ภัยพิบัติสีชาด) ผู้สวมหน้ากากเงินครึ่งหน้า และเป็นเจ้าของตลาดมืดที่ใหญ่ที่สุดในไตรภพ</p>
+                    </div>
+                    <div class="meta-block">
+                        <h4>ระบบชนชั้นของดวงวิญญาณ</h4>
+                        <p>แบ่งตามระดับความอันตรายและแรงพยาบาท: <b>ระดับนึกคิด (ต่ำสุด)</b> → <b>ระดับดุร้าย</b> → <b>ระดับพิรุณ (ทำลายล้างเมือง)</b> → <b>ระดับมหากาฬ (ภัยพิบัติสีชาด/ฉีกฟ้าดิน)</b></p>
+                    </div>
+                    <div class="meta-block">
+                        <h4>เศรษฐกิจเมืองผี</h4>
+                        <p>ใช้ "เหรียญกระดูก" และ "ความปรารถนาสุดท้าย" เป็นสื่อกลางการแลกเปลี่ยน สินค้าหลักคืออาวุธต้องคำสาป ข้อมูลลับของสวรรค์ และชิ้นส่วนอสูรโบราณ</p>
+                    </div>
+                </div>
+
+                <!-- เนื้อหาเจาะลึกเมืองผี -->
+                <div class="detailed-text">
+                    <div class="lore-paragraph">
+                        <h3>สถาปัตยกรรม แหล่งท่องเที่ยวอันตราย และตลาดมืดร้อยปีศาจ</h3>
+                        <p>โยวหมิงเฮยเฉิง ไม่ใช่สุสานที่มืดมิดและเงียบสงบ แต่เป็นนครหลวงที่ไม่มีวันหลับใหลตั้งอยู่ใต้พิภพอันลึกซึ้ง ท้องฟ้าเป็นสีม่วงอมแดงไร้ดวงตะวัน มีเพียงโคมไฟหนังมนุษย์สีแดงนับหมื่นดวงลอยละล่องส่องแสงสลัว อาคารบ้านเรือนสร้างด้วยหินสีดำสนิทประดับด้วยผ้าไหมหรูหราที่ยึดมาจากสุสานโบราณ</p>
+                        <p>สถานที่สำคัญภายในเมืองผีที่ทุกตนต้องรู้จัก:</p>
+                        
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>สถานที่สำคัญ</th>
+                                    <th>ลักษณะทางกายภาพ</th>
+                                    <th>ความลับที่ซ่อนอยู่</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ตลาดมืดร้อยปีศาจ (<span class="cn">百鬼夜市</span>)</td>
+                                    <td>ถนนสายยาวเหยียดที่เต็มไปด้วยร้านค้าของผีและปีศาจ</td>
+                                    <td>มนุษย์สามารถมีชีวิตรอดได้ที่นี่หากสวมหน้ากากสะกดกลิ่นอายหยาง</td>
+                                </tr>
+                                <tr>
+                                    <td>หอบุปผาโลหิต “จุ้ยเซียนโหลว”</td>
+                                    <td>หอคณิกาวิญญาณและโรงพนันที่ใหญ่ที่สุด พนันด้วยอายุขัยและดวงชะตา</td>
+                                    <td>เป็นศูนย์กลางข้อมูลลับที่สามารถสืบหาเรื่องอื้อฉาวของเทพสวรรค์ได้</td>
+                                </tr>
+                                <tr>
+                                    <td>สะพานไร้หวนกลับ (<span class="cn">無歸橋</span>)</td>
+                                    <td>สะพานหินผุพังข้ามแม่น้ำโลหิตเน่าเปื่อยที่มีวิญญาณทนทุกข์ลอยอยู่</td>
+                                    <td>ผู้ที่ข้ามไปโดยไม่มีตราประทับของราชาผีจะสูญเสียความทรงจำทันที</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="poetic-quote">
+                        “สวรรค์อาจทอดทิ้งเจ้าเพราะเจ้าไร้ค่า แต่เมืองผีจะอ้าแขนรับหากเจ้ามีความแค้นแรงกล้าพอ”
+                    </div>
+
+                    <div class="lore-paragraph">
+                        <h3>ความสัมพันธ์และปมขัดแย้งระหว่างภพภูมิ</h3>
+                        <p>เมืองผีไม่ได้ตั้งตนเป็นศัตรูกับสวรรค์โดยตรงในเชิงการทหาร แต่เป็นขั้วอำนาจที่คอยคานอำนาจอย่างลับๆ เทพสวรรค์หลายองค์แอบลงมาที่ตลาดมืดเพื่อซื้อของต้องห้าม หรือว่าจ้างผีระดับสูงให้ไปกำจัดศัตรูทางการเมืองบนสวรรค์ ในขณะที่ราชาผีเยี่ยหลิวอิ๋งก็มีสายลับสวมรอยเป็นขุนพลเทพประทานอยู่บนชั้นฟ้า ทำให้ความสัมพันธ์ของเซ็ตติ้ง <b>#มหาพิภพเทียนหยวนBCU</b> เต็มไปด้วยการหักหลัง ทรยศ และความรักข้ามภพภูมิที่ไม่อาจเปิดเผยได้</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ส่วนท้าย -->
+    <footer>
+        <p>© 2026 #มหาพิภพเทียนหยวนBCU • บันทึกระบบไตรภูมิลิขิตโบราณอย่างเป็นทางการ</p>
+    </footer>
+
+</body>
+</html>
